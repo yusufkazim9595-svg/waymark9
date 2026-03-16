@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waymark B1.1 — 9. Sınıf İngilizce</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f0f2f5;--card:#fff;--border:#e2e6ea;--text:#212529;--muted:#6c757d;--r:12px;--sh:0 2px 8px rgba(0,0,0,.08)}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+
+.hdr{background:#1a1d23;color:#fff;text-align:center;padding:32px 20px 28px}
+.hdr .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.hdr h1{font-size:clamp(20px,5vw,34px);font-weight:900;line-height:1.2;margin-bottom:10px}
+.hdr h1 span{color:#ffc107}
+.hdr p{font-size:13px;color:rgba(255,255,255,.5);max-width:420px;margin:0 auto 22px;line-height:1.6}
+.hdr-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+.hdr-stats .sv{font-size:26px;font-weight:900;color:#ffc107;display:block;line-height:1}
+.hdr-stats .sl{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;display:block}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 14px}
+
+/* SEARCH */
+.srch-area{padding:18px 0 0}
+.srch-box{position:relative}
+.srch-box svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.srch-box input{width:100%;padding:12px 14px 12px 40px;border:2px solid var(--border);border-radius:var(--r);background:var(--card);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s;box-shadow:var(--sh)}
+.srch-box input:focus{border-color:#1a1d23}
+.srch-box input::placeholder{color:#adb5bd;font-weight:400}
+.srch-hint{font-size:11px;color:var(--muted);margin-top:5px;padding-left:2px}
+
+/* THEME NAV */
+.tnav{padding:14px 0 0}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+@media(min-width:480px){.tgrid{grid-template-columns:repeat(5,1fr)}}
+@media(min-width:680px){.tgrid{grid-template-columns:repeat(9,1fr)}}
+.tbtn{background:var(--card);border:2px solid var(--border);border-radius:var(--r);padding:10px 5px;cursor:pointer;text-align:center;transition:all .18s;font-family:'Nunito',sans-serif}
+.tbtn:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.tbtn .tn{font-size:12px;font-weight:900;display:block;line-height:1}
+.tbtn .tt{font-size:9px;font-weight:700;margin-top:3px;display:block;color:var(--muted);line-height:1.3}
+.tbtn .tc{font-size:8px;margin-top:2px;display:block;color:#adb5bd}
+.tbtn.active{color:#fff;border-color:transparent}
+.tbtn.active .tt,.tbtn.active .tc{color:rgba(255,255,255,.7)}
+
+/* CONTENT */
+.content{padding:14px 0 80px}
+.unit{display:none}
+.unit.active{display:block;animation:fadeUp .25s ease}
+
+/* BANNER */
+.banner{border-radius:var(--r);padding:20px 18px 16px;margin-bottom:12px;position:relative;overflow:hidden}
+.banner-bg{position:absolute;right:-8px;top:-8px;font-size:72px;font-weight:900;opacity:.07;line-height:1;pointer-events:none;user-select:none}
+.btag{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+.btitle{font-size:20px;font-weight:900;margin-bottom:3px;line-height:1.2}
+.bdesc{font-size:12px;opacity:.65;line-height:1.5}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:7px;margin-bottom:11px}
+.usrch{flex:1;padding:9px 13px;border:1.5px solid var(--border);border-radius:9px;background:var(--card);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s}
+.usrch:focus{border-color:#1a1d23}
+.usrch::placeholder{color:#ced4da;font-weight:400}
+.cpill{background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:9px 12px;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.cpill b{color:var(--text)}
+
+/* WORD GRID */
+.wgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+@media(min-width:440px){.wgrid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:640px){.wgrid{grid-template-columns:repeat(4,1fr)}}
+
+/* WORD CARD */
+.wcard{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:all .15s}
+.wcard:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.wen-block{padding:11px 12px 9px;display:flex;justify-content:space-between;align-items:flex-start;gap:5px}
+.wen{font-size:13px;font-weight:900;line-height:1.3;flex:1;color:var(--text)}
+.wtype{font-size:9px;color:var(--muted);font-style:italic;margin-top:2px}
+.spkbtn{flex-shrink:0;width:24px;height:24px;border:1.5px solid var(--border);border-radius:6px;background:transparent;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:all .15s;opacity:0;margin-top:1px}
+.wcard:hover .spkbtn{opacity:1}
+.spkbtn:hover{background:#1a1d23;border-color:#1a1d23;color:#fff}
+.wtr-block{padding:8px 12px 10px;border-top:1.5px solid var(--border)}
+.wtr{font-size:12px;font-weight:800;line-height:1.4}
+
+/* NO RESULTS */
+.nores{display:none;text-align:center;padding:32px;color:var(--muted);font-size:13px}
+
+/* GLOBAL PANEL */
+.gpanel{display:none}
+.gpanel.show{display:block;animation:fadeUp .25s ease}
+.ginfo{font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:700}
+.ginfo b{color:var(--text)}
+.gtlbl{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 8px;padding:5px 10px;border-radius:5px;display:inline-block;color:#fff}
+
+/* TRANSLATE */
+.trbox{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:10px}
+.trbox h3{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.trrow{display:flex;gap:7px;margin-bottom:9px}
+.trinp{flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;background:var(--bg);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s}
+.trinp:focus{border-color:#1a1d23}
+.trbtn{background:#1a1d23;color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.trbtn:hover{opacity:.8}
+.trres{display:none;padding:11px 13px;background:var(--bg);border-radius:9px;font-size:13px;line-height:1.6;font-weight:600}
+.trres.show{display:block}
+.trlinks{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+.trlinks a{color:#0077b6;font-weight:700;text-decoration:none;margin-left:5px}
+.tr-dir-row{display:flex;gap:8px;flex-wrap:wrap}
+.tr-dir-btn{flex:1;min-width:120px;padding:10px 12px;border:2px solid var(--border);border-radius:10px;background:var(--card);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .18s;text-align:center}
+.tr-dir-btn:hover{border-color:#1a1d23;color:#1a1d23}
+.tr-dir-btn.active{background:#1a1d23;border-color:#1a1d23;color:#fff}
+/* Two-panel layout */
+.tr-panels{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start}
+.tr-panel{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.tr-panel-lbl{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:10px 14px 6px}
+.tr-area{width:100%;padding:6px 14px 10px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:var(--text);outline:none;resize:none;min-height:80px;line-height:1.5}
+.tr-area-result{padding:6px 14px 10px;font-size:15px;font-weight:800;color:#2e7d32;min-height:80px;line-height:1.5;word-break:break-word}
+.spk-panel-btn{margin:0 10px 10px;align-self:flex-start;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;transition:all .15s}
+.spk-panel-btn:hover{background:#1a1d23;color:#fff;border-color:#1a1d23}
+.tr-arrow{font-size:20px;color:var(--muted);padding-top:42px;text-align:center;user-select:none}
+.tr-status{margin-top:8px;min-height:20px;font-size:11px}
+@media(max-width:480px){
+  .tr-panels{grid-template-columns:1fr;gap:8px}
+  .tr-arrow{padding-top:0;font-size:16px}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="badge">MEB · Waymark B1.1 · 2025–2026</div>
+  <h1>9. Sınıf <span>İngilizce</span><br>Kelime Rehberi</h1>
+  <p>8 temanın tüm kelimeleri — Türkçe anlamları ve sesli telaffuzuyla</p>
+  <div class="hdr-stats">
+    <div><span class="sv" id="total-n">—</span><span class="sl">Toplam Kelime</span></div>
+    <div><span class="sv">8</span><span class="sl">Tema</span></div>
+    <div><span class="sv">🔊</span><span class="sl">Sesli Telaffuz</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="srch-area">
+    <div class="srch-box">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.116-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+      <input type="text" id="gs" placeholder="Tüm temalarda ara... (İngilizce veya Türkçe)" oninput="gSearch(this.value)">
+    </div>
+    <div class="srch-hint">💡 Kelime yaz — hangi temada olduğunu otomatik bulur</div>
+  </div>
+  <div class="tnav"><div class="tgrid" id="tgrid"></div></div>
+  <div class="content" id="content">
+    <div class="gpanel" id="gpanel">
+      <div class="ginfo" id="ginfo"></div>
+      <div id="gbody"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const T=[
+{n:"T1",title:"School Life",tag:"Theme 1",desc:"Ülkeler, milliyetler, turistik yerler, tarih ve okul hayatı",c:"#2d6a4f",bg:"#d8f3dc",words:[
+["Ancient","Antik, çok eski","sıfat"],["Historical site","Tarihi alan","isim"],["Monument","Anıt","isim"],["Fascinating","Büyüleyici","sıfat"],["Landmark","Simgesel yapı","isim"],["Heritage","Miras","isim"],["Sightseeing","Şehir gezisi","isim"],["Castle","Kale, şato","isim"],["Palace","Saray","isim"],["Native language","Anadil","isim"],["Fluently","Akıcı bir şekilde","zarf"],["Journey","Yolculuk","isim"],["Location","Konum","isim"],["Join","Katılmak","fiil"],["Be famous for","...ile ünlü olmak","deyim"],["Baths","Hamamlar","isim"],["Boat ride","Tekne turu","isim"],["Art museum","Sanat müzesi","isim"],["Ancient ruin","Antik kalıntı","isim"],["Head to","Bir yere yönelmek","fiil"],["Nationalities","Uyruklar","isim"],["Assignment","Ödev","isim"],["Lecture","Ders, konferans","isim"],["Perform","Sergilemek","fiil"],["Creative","Yaratıcı","sıfat"],["Script","Senaryo","isim"],["Opportunity","Fırsat","isim"],["Possibility","Olasılık","isim"],["Ability","Yetenek","isim"],["Recognise","Tanımak","fiil"],["Attraction","Turistik yer","isim"],["Capital","Başkent","isim"],["Fjord","Fiyort","isim"],["Accurate","Doğru, tam","sıfat"],["Meaningful","Anlamlı","sıfat"],["Authentic","Özgün","sıfat"],["Destination","Varış noktası","isim"],["Itinerary","Gezi planı","isim"],["Embark","Başlamak (yolculuğa)","fiil"],["Explore","Keşfetmek","fiil"],["Exhibition","Sergi","isim"],["Civilization","Medeniyet","isim"],["Discovery","Keşif","isim"],["Inhabitant","Sakin, yaşayan kişi","isim"],["Archaeology","Arkeoloji","isim"],["Artifact","Tarihi eser","isim"],["Traditional","Geleneksel","sıfat"],["Custom","Adet, gelenek","isim"],["Remarkable","Dikkat çekici","sıfat"],["Unique","Eşsiz","sıfat"],["Diversity","Çeşitlilik","isim"],["Hospitality","Misafirperverlik","isim"],["Preserve","Korumak","fiil"],["Sacred","Kutsal","sıfat"],["Magnificent","Muhteşem","sıfat"],["Azerbaijani","Azerbaycanlı","sıfat/isim"],["Bulgarian","Bulgar","sıfat/isim"],["Hungarian","Macar","sıfat/isim"],["Kazakh","Kazak","sıfat/isim"],["Kyrgyz","Kırgız","sıfat/isim"],["Norwegian","Norveçli","sıfat/isim"],["Polish","Polonyalı","sıfat/isim"],["Peruvian","Perulu","sıfat/isim"],["Chilean","Şilili","sıfat/isim"],["Korean","Koreli","sıfat/isim"],["Guide","Rehber","isim"],["Knowledge","Bilgi","isim"],["Celebrations","Kutlamalar","isim"],["Vibrant","Canlı, enerjik","sıfat"],["Influence","Etki","isim"],["Experience","Deneyim","isim"],["Diverse","Çeşitli","sıfat"],["Global","Küresel","sıfat"],["Impact","Etki, etkilemek","isim/fiil"],["Indigenous","Yerli (halk)","sıfat"],["Legacy","Miras","isim"],["Navigate","Yol bulmak","fiil"],["Observe","Gözlemlemek","fiil"],["Origin","Köken","isim"],["Territory","Bölge","isim"],["Values","Değerler","isim"],["Youth","Gençlik","isim"],["Unity","Birlik","isim"],["Tolerance","Hoşgörü","isim"],
+["Zest","Şevk, heyecan","isim"],["Marvel","Mucize; hayret etmek","isim/fiil"],["Philosophy","Felsefe","isim"],["Sacrifice","Fedakarlık","isim"],["Witness","Tanık olmak","fiil"],["Profound","Derin, köklü","sıfat"],["Regard","Saygı; görmek","isim/fiil"],["Reconstruct","Yeniden inşa etmek","fiil"],["Analyze","Analiz etmek","fiil"],["Perspectives","Bakış açıları","isim"],["Symbolize","Simgelemek","fiil"],["Awe-inspiring","Hayranlık uyandıran","sıfat"],["Breathtaking","Nefes kesici","sıfat"],["Cultivate","Geliştirmek; yetiştirmek","fiil"],["Evolve","Evrimleşmek; gelişmek","fiil"],["Foundation","Temel","isim"],["National days","Milli bayramlar","isim"],
+]},
+{n:"T2",title:"Classroom Life",tag:"Theme 2",desc:"Günlük rutinler, sınıf içi iletişim ve çalışma alışkanlıkları",c:"#1d4e89",bg:"#dbeafe",words:[
+["Daily routine","Günlük rutin","isim"],["Study habit","Çalışma alışkanlığı","isim"],["Participate","Katılmak","fiil"],["Repeat","Tekrarlamak","fiil"],["Comb hair","Saç taramak","deyim"],["Run errands","Getir götür işleri yapmak","deyim"],["Neatly","Özenle, düzenli biçimde","zarf"],["Occasionally","Ara sıra","zarf"],["Rarely","Nadiren","zarf"],["Integration","Entegrasyon","isim"],["Gamification","Oyunlaştırma","isim"],["Interaction","Etkileşim","isim"],["Digital technology","Dijital teknoloji","isim"],["Relax","Rahatlamak","fiil"],["Perceive","Algılamak","fiil"],["Evaluate","Değerlendirmek","fiil"],["Self-Reflection","Öz-yansıtma","isim"],["Peer","Akran","isim"],["Feedback","Geribildirim","isim"],["Checklist","Kontrol listesi","isim"],["Sequence","Sıralama","isim"],["Awareness","Farkındalık","isim"],["Well-being","Esenlik","isim"],["Skimming","Göz gezdirme","isim"],["Scanning","Tarama","isim"],["Mastery","Ustalık","isim"],["Summarize","Özetlemek","fiil"],["Motivation","Motivasyon","isim"],["Concentrate","Odaklanmak","fiil"],["Productive","Üretken","sıfat"],["Discipline","Disiplin","isim"],["Assessment","Değerlendirme","isim"],["Collaboration","İşbirliği","isim"],["Consistency","Tutarlılık","isim"],["Instruction","Talimat","isim"],["Improvement","Gelişim","isim"],["Success","Başarı","isim"],["Strategy","Strateji","isim"],["Task","Görev","isim"],["Flexible","Esnek","sıfat"],["Time management","Zaman yönetimi","isim"],["Workspace","Çalışma alanı","isim"],["Review","Gözden geçirmek","fiil"],["Note-taking","Not alma","isim"],["Deadline","Son teslim tarihi","isim"],["Resources","Kaynaklar","isim"],["Skill","Beceri","isim"],["Objective","Hedef","isim"],["Engagement","Katılım","isim"],["Reinforce","Pekiştirmek","fiil"],["Organise","Düzenlemek","fiil"],["Criteria","Kriter","isim"],["Process","Süreç","isim"],["Method","Yöntem","isim"],["Efficient","Verimli","sıfat"],["Effective","Etkili","sıfat"],["Achievement","Başarı","isim"],["Clarify","Açıklığa kavuşturmak","fiil"],["Support","Destek","isim"],["Performance","Performans","isim"],["Concept","Kavram","isim"],["Discuss","Tartışmak","fiil"],["Examine","İncelemek","fiil"],["Compare","Karşılaştırmak","fiil"],["Practice","Pratik yapmak","fiil"],["Presentation","Sunum","isim"],["Draft","Taslak","isim"],["Edit","Düzenlemek","fiil"],["Development","Gelişim","isim"],["Guidance","Rehberlik","isim"],["Target","Hedef","isim"],["Portfolio","Portfolyo","isim"],["Academic","Akademik","sıfat"],["Context","Bağlam","isim"],["Check","Kontrol etmek","fiil"],["Highlight","Vurgulamak","fiil"],["Focus","Odaklanmak","fiil"],["Schedule","Program, takvim","isim"],["Routine","Rutin","isim"],["Habit","Alışkanlık","isim"],["Subject","Ders, konu","isim"],["Homework","Ödev","isim"],["Tidy","Toplamak, düzenlemek","fiil"],["Wake up","Uyanmak","fiil"],["Get dressed","Giyinmek","deyim"],["Have a shower","Duş almak","deyim"],["Have a break","Mola vermek","deyim"],["Always","Her zaman","zarf"],["Never","Hiçbir zaman","zarf"],["Sometimes","Bazen","zarf"],["Often","Sık sık","zarf"],
+["Integration","Entegrasyon","isim"],["Gamification","Oyunlaştırma","isim"],["Typically","Tipik olarak","zarf"],["Adverbs of manner","Durum zarfları","isim"],["Prior knowledge","Ön bilgi","isim"],["Lead-in","Giriş aktivitesi","isim"],["Accurate content","Doğru içerik","isim"],["Evaluation scale","Değerlendirme ölçeği","isim"],["Contrast","Zıtlık, karşıtlık","isim"],["Illustration","Örnekleme","isim"],["Correction","Düzeltme","isim"],["Rubric","Puanlama cetveli","isim"],["Standard","Standart","isim"],["Requirement","Gereksinim","isim"],
+]},
+{n:"T3",title:"Personal Life",tag:"Theme 3",desc:"Fiziksel görünüş, kişilik özellikleri ve duygular",c:"#7b2d8b",bg:"#f3e8ff",words:[
+["Medium-height","Orta boylu","sıfat"],["Plump","Balık etli","sıfat"],["Blond","Sarışın","sıfat"],["Brunette","Esmer saçlı","sıfat"],["Slim","Zayıf, ince","sıfat"],["Attractive","Çekici","sıfat"],["Handsome","Yakışıklı","sıfat"],["Well-built","Yapılı, kaslı","sıfat"],["Fair skin","Açık ten","isim"],["Tan skin","Bronz ten","isim"],["Pale skin","Solgun ten","isim"],["Wavy hair","Dalgalı saç","isim"],["Curly hair","Kıvırcık saç","isim"],["Straight hair","Düz saç","isim"],["Middle-aged","Orta yaşlı","sıfat"],["Cheerful","Neşeli","sıfat"],["Moody","Huysuz","sıfat"],["Honest","Dürüst","sıfat"],["Dishonest","Sahtekar, dürüst olmayan","sıfat"],["Smart","Zeki","sıfat"],["Polite","Kibar","sıfat"],["Rude","Kaba","sıfat"],["Calm","Sakin","sıfat"],["Gentle","Nazik","sıfat"],["Shy","Utangaç","sıfat"],["Lazy","Tembel","sıfat"],["Generous","Cömert","sıfat"],["Confident","Kendinden emin","sıfat"],["Forgetful","Unutkan","sıfat"],["Selfish","Bencil","sıfat"],["Peaceful","Huzurlu","sıfat"],["Outgoing","Sosyal, dışa dönük","sıfat"],["Brave","Cesur","sıfat"],["Quiet","Sessiz","sıfat"],["Friendly","Arkadaş canlısı","sıfat"],["Careless","Dikkatsiz","sıfat"],["Serious","Ciddi","sıfat"],["Funny","Komik","sıfat"],["Trait","Özellik, karakter çizgisi","isim"],["Admire","Hayran olmak","fiil"],["Fictional character","Kurgusal karakter","isim"],["Charming","Büyüleyici, çekici","sıfat"],["Stingy","Cimri","sıfat"],["Reliable","Güvenilir","sıfat"],["Arrogant","Kibirli","sıfat"],["Humble","Mütevazı","sıfat"],["Sensitive","Duyarlı","sıfat"],["Sensible","Mantıklı","sıfat"],["Ambitious","Hırslı","sıfat"],["Patient","Sabırlı","sıfat"],["Stubborn","İnatçı","sıfat"],["Determined","Kararlı","sıfat"],["Enthusiastic","Hevesli","sıfat"],["Loyal","Sadık","sıfat"],["Aggressive","Saldırgan","sıfat"],["Clumsy","Sakar","sıfat"],["Impatient","Sabırsız","sıfat"],["Creative","Yaratıcı","sıfat"],["Thoughtful","Düşünceli","sıfat"],["Energetic","Enerjik","sıfat"],["Independent","Bağımsız","sıfat"],["Jealous","Kıskanç","sıfat"],["Nervous","Gergin","sıfat"],["Optimistic","İyimser","sıfat"],["Pessimistic","Kötümser","sıfat"],["Strict","Sert, katı","sıfat"],["Talented","Yetenekli","sıfat"],["Appearance","Görünüş","isim"],["Personality","Kişilik","isim"],["Feature","Özellik (yüz/vücut)","isim"],["Bald","Kel","sıfat"],["Beard","Sakal","isim"],["Mustache","Bıyık","isim"],["Freckles","Çiller","isim"],["Wrinkles","Kırışıklıklar","isim"],["Overweight","Kilolu","sıfat"],["Stocky","Tıknaz","sıfat"],["Petite","Minyon","sıfat"],["Elegant","Zarif","sıfat"],["Sophisticated","Kültürlü, sofistike","sıfat"],["Introvert","İçe dönük","sıfat/isim"],["Extrovert","Dışa dönük","sıfat/isim"],["Empathetic","Empatik","sıfat"],["Tall","Uzun boylu","sıfat"],["Short","Kısa boylu","sıfat"],["Young","Genç","sıfat"],["Old","Yaşlı, eski","sıfat"],["Beautiful","Güzel","sıfat"],["Describe","Tarif etmek","fiil"],
+["Scruffy","Pasaklı, dağınık görünümlü","sıfat"],
+]},
+{n:"T4",title:"Family Life & Jobs",tag:"Theme 4",desc:"Aile bireyleri, meslekler ve iş hayatı",c:"#c05621",bg:"#fff0e6",words:[
+["Bank clerk","Banka memuru","isim"],["Security guard","Güvenlik görevlisi","isim"],["Pharmacist","Eczacı","isim"],["Virtual assistant","Sanal asistan","isim"],["Serve customers","Müşteriye hizmet etmek","deyim"],["Work routine","İş rutini","isim"],["Cousin","Kuzen","isim"],["Nephew","Erkek yeğen","isim"],["Niece","Kız yeğen","isim"],["Step-parent","Üvey ebeveyn","isim"],["Collaborate","İşbirliği yapmak","fiil"],["Tradition","Gelenek","isim"],["Values","Değerler","isim"],["Job title","Meslek unvanı","isim"],["Workplace","İş yeri","isim"],["Demonstrate","Kanıtlamak","fiil"],["Teamwork","Ekip çalışması","isim"],["Architecture firm","Mimarlık firması","isim"],["Businessperson","İş insanı","isim"],["Computer programmer","Bilgisayar programcısı","isim"],["Content creator","İçerik üreticisi","isim"],["Counsel","Danışmanlık","isim"],["Defend","Savunmak","fiil"],["Design","Tasarlamak","fiil"],["Digital marketer","Dijital pazarlamacı","isim"],["IT company","Bilişim şirketi","isim"],["Journalist","Gazeteci","isim"],["Lawyer","Avukat","isim"],["Manage","Yönetmek","fiil"],["Promote","Tanıtmak, terfi ettirmek","fiil"],["Psychologist","Psikolog","isim"],["Publish","Yayınlamak","fiil"],["Research","Araştırmak","fiil"],["Scientist","Bilim insanı","isim"],["Shoot","Fotoğraf çekmek","fiil"],["Responsibility","Sorumluluk","isim"],["Salary","Maaş","isim"],["Qualification","Nitelik","isim"],["Employment","İstihdam","isim"],["Interview","Mülakat","isim"],["Experience","Deneyim","isim"],["Career","Kariyer","isim"],["Profession","Meslek","isim"],["Colleague","Meslektaş","isim"],["Accountant","Muhasebeci","isim"],["Architect","Mimar","isim"],["Carpenter","Marangoz","isim"],["Chef","Aşçı, şef","isim"],["Dentist","Diş hekimi","isim"],["Electrician","Elektrikçi","isim"],["Engineer","Mühendis","isim"],["Firefighter","İtfaiyeci","isim"],["Flight attendant","Kabin memuru","isim"],["Hairdresser","Kuaför","isim"],["Librarian","Kütüphaneci","isim"],["Mechanic","Tamirci","isim"],["Nurse","Hemşire","isim"],["Pilot","Pilot","isim"],["Plumber","Tesisatçı","isim"],["Police officer","Polis","isim"],["Receptionist","Resepsiyonist","isim"],["Surgeon","Cerrah","isim"],["Tailor","Terzi","isim"],["Vet","Veteriner","isim"],["Waiter","Garson","isim"],["Application","Başvuru","isim"],["Contract","Sözleşme","isim"],["Department","Departman","isim"],["Earn","Para kazanmak","fiil"],["Full-time","Tam zamanlı","sıfat"],["Part-time","Yarı zamanlı","sıfat"],["Overtime","Fazla mesai","isim"],["Leadership","Liderlik","isim"],["Meeting","Toplantı","isim"],["Negotiate","Müzakere etmek","fiil"],["Recruit","İşe almak","fiil"],["Retirement","Emeklilik","isim"],["Shift","Vardiya","isim"],["Supervisor","Denetleyici","isim"],["Training","Eğitim","isim"],["Unemployment","İşsizlik","isim"],["Workload","İş yükü","isim"],["Entrepreneur","Girişimci","isim"],["Innovation","İnovasyon","isim"],["Marketing","Pazarlama","isim"],["Sales","Satış","isim"],["Customer service","Müşteri hizmetleri","isim"],["Project","Proje","isim"],["Doctor","Doktor","isim"],["Teacher","Öğretmen","isim"],["Photographer","Fotoğrafçı","isim"],
+["Apprentice","Çırak","isim"],["Labor","İş gücü","isim"],["Pension","Emekli maaşı","isim"],["Vacant","Boş (pozisyon)","sıfat"],["Efficiency","Verimlilik","isim"],["Benefit","Yan hak","isim"],
+]},
+{n:"T5",title:"House & Neighbourhood",tag:"Theme 5",desc:"Ev bölümleri, eşyalar, komşuluk ve mahalle yaşamı",c:"#b5179e",bg:"#fce4f7",words:[
+["Block of flats","Apartman bloku","isim"],["Villa","Villa","isim"],["Cottage","Kır evi","isim"],["Semi-detached house","İkiz ev","isim"],["Basin","Lavabo","isim"],["Bathtub","Küvet","isim"],["Bedside table","Komodin","isim"],["Utility room","Çamaşır odası","isim"],["Spacious","Geniş, ferah","sıfat"],["Furniture","Mobilya","isim"],["Appliances","Ev aletleri","isim"],["Decorative items","Dekoratif eşyalar","isim"],["Pillow","Yastık","isim"],["Rug","Kilim","isim"],["Iron","Ütü yapmak","fiil"],["Oven","Fırın","isim"],["Fridge","Buzdolabı","isim"],["Privacy","Mahremiyet, gizlilik","isim"],["Neighbourhood","Mahalle","isim"],["Balcony","Balkon","isim"],["Basement","Bodrum","isim"],["Attic","Tavan arası","isim"],["Terrace","Teras","isim"],["Garage","Garaj","isim"],["Curtain","Perde","isim"],["Wardrobe","Gardırop","isim"],["Stairs","Merdiven","isim"],["Hallway","Koridor","isim"],["Living room","Oturma odası","isim"],["Rent","Kira","isim"],["Move","Taşınmak","fiil"],["Neighbour","Komşu","isim"],["Accommodation","Konaklama","isim"],["Urban","Kentsel","sıfat"],["Rural","Kırsal","sıfat"],["Sustainable","Sürdürülebilir","sıfat"],["Ceiling","Tavan","isim"],["Chimney","Baca","isim"],["Doorbell","Kapı zili","isim"],["Fence","Çit","isim"],["Fireplace","Şömine","isim"],["Gate","Bahçe kapısı","isim"],["Shelf","Raf","isim"],["Renovate","Yenilemek","fiil"],["Tenant","Kiracı","isim"],["Landlord","Ev sahibi","isim"],["Eco-friendly","Çevre dostu","sıfat"],["Solar panel","Güneş paneli","isim"],["Backyard","Arka bahçe","isim"],["Cabinet","Dolap","isim"],["Central heating","Merkezi ısıtma","isim"],["Comfort","Konfor","isim"],["District","İlçe, bölge","isim"],["Household","Ev halkı","isim"],["Loft","Çatı katı dairesi","isim"],["Maintenance","Bakım","isim"],["Mansion","Malikane","isim"],["Mortgage","Ev kredisi","isim"],["Property","Mülkiyet","isim"],["Real estate","Emlak","isim"],["Suburb","Banliyö","isim"],["Surroundings","Çevre","isim"],["Terraced house","Sıra evler","isim"],["Tile","Fayans","isim"],["Ventilation","Havalandırma","isim"],["Vicinity","Civar","isim"],["View","Manzara","isim"],["Bedroom","Yatak odası","isim"],["Kitchen","Mutfak","isim"],["Bathroom","Banyo","isim"],["Dining room","Yemek odası","isim"],["Corridor","Koridor","isim"],["Detached house","Müstakil ev","isim"],["Bungalow","Tek katlı ev","isim"],["Sofa","Kanepe","isim"],["Armchair","Tekli koltuk","isim"],["Carpet","Halı","isim"],["Lamp","Lamba","isim"],["Cushion","Minder","isim"],["Dishwasher","Bulaşık makinesi","isim"],["Freezer","Derin dondurucu","isim"],["Cooker","Ocak","isim"],["Harmonious","Uyumlu","sıfat"],["Stylish","Şık","sıfat"],["Upstairs","Üst katta","isim"],["Downstairs","Alt katta","isim"],["Penthouse","Çatı katı dairesi","isim"],["Hoover","Elektrikli süpürge","isim"],["Cupboard","Dolap","isim"],
+["Zero-energy building","Sıfır enerjili bina","isim"],["Infrastructure","Altyapı","isim"],["Landscaped","Peyzajlı","sıfat"],["Locality","Mevki, konum","isim"],["Vantage point","Manzara noktası","isim"],["Threshold","Eşik","isim"],["Townhouse","Şehir evi","isim"],["Quarters","Yaşam alanı","isim"],["Facade","Bina cephesi","isim"],["Estate","Mülk, taşınmaz","isim"],["Fixture","Sabit eşya","isim"],["Furnished","Mobilyalı","sıfat"],["Patio","Teras, veranda","isim"],["Dwelling","Konut, ev","isim"],["Roomy","Ferah, geniş","sıfat"],["Setting","Ortam, çevre","isim"],["Shared","Paylaşımlı","sıfat"],["Skyline","Şehir silüeti","isim"],["Underground","Yer altı","sıfat/isim"],["Utility","Fayda, hizmet","isim"],["Structure","Yapı","isim"],
+]},
+{n:"T6",title:"City & Country",tag:"Theme 6",desc:"Yemekler, festivaller, şehir ve kır yaşamı",c:"#0077b6",bg:"#e0f4ff",words:[
+["Cuisine","Mutfak kültürü","isim"],["Street food","Sokak yemeği","isim"],["Local dish","Yerel yemek","isim"],["International dish","Uluslararası yemek","isim"],["Ingredient","Malzeme","isim"],["Feast","Ziyafet, şölen","isim"],["Gastro-festival","Gastronomi festivali","isim"],["Cream","Krema","isim"],["Sweetcorn","Şeker mısırı","isim"],["Turkish pizza","Lahmacun","isim"],["Falafel","Falafel","isim"],["Kebab","Kebap","isim"],["Lamb chop","Kuzu pirzola","isim"],["Mushroom","Mantar","isim"],["Noodle","Erişte","isim"],["Pasta","Makarna","isim"],["Herb","Ot, baharat","isim"],["Hot","Acı, yakıcı","sıfat"],["Juicy","Sulu, lezzetli","sıfat"],["Culture Route","Kültür yolu","isim"],["Bitter","Acı (tad)","sıfat"],["Delicious","Lezzetli","sıfat"],["Flavor","Tat, lezzet","isim"],["Healthy","Sağlıklı","sıfat"],["Recipe","Tarif","isim"],["Salty","Tuzlu","sıfat"],["Sour","Ekşi","sıfat"],["Sweet","Tatlı","sıfat"],["Appetizer","İştah açıcı","isim"],["Beverage","İçecek","isim"],["Buffet","Açık büfe","isim"],["Dessert","Tatlı (öğün)","isim"],["Seafood","Deniz ürünü","isim"],["Side dish","Yan yemek","isim"],["Vegetarian","Vejetaryen","sıfat/isim"],["Bake","Fırınlamak","fiil"],["Boil","Haşlamak","fiil"],["Chop","Doğramak","fiil"],["Fry","Kızartmak","fiil"],["Grill","Izgara yapmak","fiil"],["Nutrition","Beslenme","isim"],["Organic","Organik","sıfat"],["Spice","Baharat","isim"],["Traditional","Geleneksel","sıfat"],["Chef","Şef","isim"],["Dairy","Süt ürünü","isim"],["Diet","Diyet","isim"],["Dish","Yemek, tabak","isim"],["Edible","Yenilebilir","sıfat"],["Fast food","Hazır yemek","isim"],["Gourmet","Gurme","isim"],["Grain","Tahıl","isim"],["Harvest","Hasat","isim"],["Layer","Katman","isim"],["Meal","Öğün","isim"],["Minced","Kıyılmış","sıfat"],["Peel","Soymak","fiil"],["Pickle","Turşu","isim"],["Portion","Porsiyon","isim"],["Protein","Protein","isim"],["Raw","Çiğ","sıfat"],["Seasoning","Çeşni, baharatlandırma","isim"],["Simmer","Kısık ateşte pişirmek","fiil"],["Smoked","Füme, tütsülenmiş","sıfat"],["Specialty","Özel yemek, uzmanlık","isim"],["Steak","Biftek","isim"],["Stew","Yahni","isim"],["Takeout","Paket servis","isim"],["Utensil","Mutfak gereci","isim"],["Annual","Yıllık","sıfat"],["Festival","Festival","isim"],["Celebration","Kutlama","isim"],["Cultural","Kültürel","sıfat"],["Diversity","Çeşitlilik","isim"],["Flavour","Lezzet","isim"],["Baklava","Baklava","isim"],["Turkish delight","Lokum","isim"],["Stir","Karıştırmak","fiil"],["Taste","Tatmak","fiil"],["Tender","Yumuşak","sıfat"],["Aubergine","Patlıcan","isim"],["Courgette","Kabak","isim"],["Salmon","Somon","isim"],["Tuna","Ton balığı","isim"],["Spinach","Ispanak","isim"],["Onion","Soğan","isim"],
+["Condiment","Çeşni, sos","isim"],["Cookbook","Yemek kitabı","isim"],["Entree","Ana yemek","isim"],["Flavorful","Aromalı, lezzetli","sıfat"],["Leftovers","Yemek artıkları","isim"],["Preservative","Koruyucu madde","isim"],["Refreshment","Atıştırmalık, içecek","isim"],["Savor","Tadını çıkarmak","fiil"],["Skilled","Becerikli","sıfat"],["Staple","Temel gıda","isim"],["Starve","Açlıktan ölmek","fiil"],["Tablecloth","Masa örtüsü","isim"],["Zesty","Çeşnili, keskin tadlı","sıfat"],["Produce","Ürün, tarım ürünü","isim"],["Catering","Yemek hizmeti","isim"],["Platter","Servis tabağı","isim"],
+]},
+{n:"T7",title:"World & Nature",tag:"Theme 7",desc:"Nesli tükenen hayvanlar, doğa ve çevre koruma",c:"#2e7d32",bg:"#e8f5e9",words:[
+["Endangered","Nesli tükenmekte","sıfat"],["Habitat","Yaşam alanı","isim"],["Wildlife","Vahşi yaşam","isim"],["Shelter","Barınak","isim"],["Illegal","Yasadışı","sıfat"],["Population","Popülasyon","isim"],["Protect","Korumak","fiil"],["Prevent","Önlemek","fiil"],["Marine pollution","Deniz kirliliği","isim"],["Overfishing","Aşırı avlanma","isim"],["Woodland","Ormanlık alan","isim"],["Habitat loss","Yaşam alanı kaybı","isim"],["Melting ice","Eriyen buzlar","isim"],["Donate","Bağış yapmak","fiil"],["Raise awareness","Farkındalık yaratmak","deyim"],["Breed","Üremek","fiil"],["Extinct","Nesli tükenmiş","sıfat"],["Global warming","Küresel ısınma","isim"],["Biodiversity","Biyoçeşitlilik","isim"],["Climate change","İklim değişikliği","isim"],["Conservation","Koruma","isim"],["Deforestation","Ormansızlaşma","isim"],["Ecology","Ekoloji","isim"],["Environment","Çevre","isim"],["Natural resource","Doğal kaynak","isim"],["Recycle","Geri dönüştürmek","fiil"],["Sustainable","Sürdürülebilir","sıfat"],["Toxic","Zehirli","sıfat"],["Ecosystem","Ekosistem","isim"],["Greenhouse effect","Sera etkisi","isim"],["Renewable energy","Yenilenebilir enerji","isim"],["Threat","Tehdit","isim"],["Atmosphere","Atmosfer","isim"],["Carbon footprint","Karbon ayak izi","isim"],["Contamination","Kirlenme","isim"],["Drought","Kuraklık","isim"],["Emission","Emisyon","isim"],["Erosion","Erozyon","isim"],["Flora","Bitki örtüsü","isim"],["Fauna","Hayvan topluluğu","isim"],["Fossil fuel","Fosil yakıt","isim"],["Glacier","Buzul","isim"],["Impact","Etki","isim"],["Litter","Çöp","isim"],["Nature","Doğa","isim"],["Oxygen","Oksijen","isim"],["Ozone layer","Ozon tabakası","isim"],["Pesticide","Tarım ilacı","isim"],["Pollutant","Kirletici madde","isim"],["Preservation","Muhafaza","isim"],["Rainforest","Yağmur ormanı","isim"],["Resources","Kaynaklar","isim"],["Sanctuary","Koruma alanı","isim"],["Scarcity","Kıtlık","isim"],["Soil","Toprak","isim"],["Solar power","Güneş gücü","isim"],["Species","Türler","isim"],["Temperature","Sıcaklık","isim"],["Territory","Bölge","isim"],["Vegetation","Bitki örtüsü","isim"],["Waste","Atık","isim"],["Water supply","Su kaynağı","isim"],["Wind energy","Rüzgar enerjisi","isim"],["Endangerment","Tehlikeye atma","isim"],["Restoration","Restorasyon","isim"],["Survive","Hayatta kalmak","fiil"],["Cheetah","Çita","isim"],["Chimpanzee","Şempanze","isim"],["Dolphin","Yunus","isim"],["Polar bear","Kutup ayısı","isim"],["Sea turtle","Deniz kaplumbağası","isim"],["Tiger","Kaplan","isim"],["Whale","Balina","isim"],["Panda","Panda","isim"],["Penguin","Penguen","isim"],["Desert","Çöl","isim"],["Grassland","Otlak","isim"],["Jungle","Tropikal orman","isim"],["Ocean","Okyanus","isim"],["Extinction","Neslin tükenmesi","isim"],["Threatened","Tehdit altında","sıfat"],["Overhunting","Aşırı avlanma","isim"],["Volunteer","Gönüllü","isim"],["Awareness","Farkındalık","isim"],
+["Biosphere","Biyosfer","isim"],["Dam","Baraj","isim"],["Disaster","Felaket","isim"],["Fertile","Verimli (toprak)","sıfat"],["Organic","Organik","sıfat"],["Purity","Saflık","isim"],["Radiation","Radyasyon","isim"],["Raw material","Ham madde","isim"],["Seismic","Sismik","sıfat"],["Stability","İstikrar","isim"],["Survivor","Hayatta kalan","isim"],["Toxin","Toksin","isim"],["Zone","Bölge","isim"],["Wild","Vahşi","sıfat"],["World","Dünya","isim"],["Weather","Hava durumu","isim"],
+]},
+{n:"T8",title:"Universe & Future",tag:"Theme 8",desc:"Film türleri, uzay, teknoloji ve gelecek",c:"#c0392b",bg:"#fde8e8",words:[
+["Futuristic","Gelecekçi","sıfat"],["Invention","İcat","isim"],["Space adventure","Uzay macerası","isim"],["Alien invasion","Uzaylı istilası","isim"],["Script","Senaryo","isim"],["Discover","Keşfetmek","fiil"],["Prediction","Tahmin","isim"],["Sci-fi","Bilim kurgu","isim"],["Space exploration","Uzay keşfi","isim"],["Superhero","Süper kahraman","isim"],["Robot","Robot","isim"],["Astronomy","Astronomi","isim"],["Astronaut","Astronot","isim"],["Black hole","Kara delik","isim"],["Comet","Kuyruklu yıldız","isim"],["Cosmos","Kozmos","isim"],["Galaxy","Galaksi","isim"],["Gravity","Yerçekimi","isim"],["Orbit","Yörünge","isim"],["Planet","Gezegen","isim"],["Rocket","Roket","isim"],["Satellite","Uydu","isim"],["Solar system","Güneş sistemi","isim"],["Star","Yıldız","isim"],["Telescope","Teleskop","isim"],["Universe","Evren","isim"],["Artificial Intelligence","Yapay Zeka","isim"],["Automation","Otomasyon","isim"],["Innovation","İnovasyon","isim"],["Robotics","Robotik","isim"],["Virtual reality","Sanal gerçeklik","isim"],["Breakthrough","Atılım, önemli buluş","isim"],["Advanced","Gelişmiş","sıfat"],["Aerospace","Uzay ve havacılık","isim"],["Asteroid","Asteroit","isim"],["Capsule","Kapsül","isim"],["Celestial","Göksel","sıfat"],["Colonization","Kolonileşme","isim"],["Communication","İletişim","isim"],["Cybernetics","Sibernetik","isim"],["Data","Veri","isim"],["Device","Cihaz","isim"],["Dimension","Boyut","isim"],["Electronics","Elektronik","isim"],["Engine","Motor","isim"],["Equipment","Ekipman","isim"],["Evolution","Evrim","isim"],["Experiment","Deney","isim"],["Extraterrestrial","Dünya dışı","sıfat"],["Gadget","Küçük alet, cihaz","isim"],["Hologram","Hologram","isim"],["Hypothesis","Hipotez","isim"],["Infinite","Sonsuz","sıfat"],["Launch","Fırlatmak","fiil"],["Machine","Makine","isim"],["Mission","Görev","isim"],["Module","Modül","isim"],["Nanotechnology","Nanoteknoloji","isim"],["Network","Ağ","isim"],["Observation","Gözlem","isim"],["Physics","Fizik","isim"],["Program","Program","isim"],["Quantum","Kuantum","isim"],["Sensor","Sensör","isim"],["Shuttle","Mekik","isim"],["Software","Yazılım","isim"],["Spacecraft","Uzay aracı","isim"],["Teleportation","Işınlanma","isim"],["Theory","Teori","isim"],["Vacuum","Vakum, boşluk","isim"],["Action","Aksiyon filmi","isim"],["Comedy","Komedi","isim"],["Horror","Korku filmi","isim"],["Thriller","Gerilim filmi","isim"],["Documentary","Belgesel","isim"],["Musical","Müzikal","isim"],["Historical film","Tarihi film","isim"],["Cartoon","Çizgi film","isim"],["Director","Yönetmen","isim"],["Actor","Erkek oyuncu","isim"],["Actress","Kadın oyuncu","isim"],["Genre","Film türü","isim"],["Plot","Olay örgüsü","isim"],["Scene","Sahne","isim"],["Audience","Seyirci","isim"],["Streaming platform","Yayın platformu","isim"],["Visual effects","Görsel efektler","isim"],["Computing","Bilişim","isim"],["Output","Çıktı","isim"],["Pattern","Örüntü, kalıp","isim"],["Possibility","Olasılık","isim"],["Process","Süreç","isim"],["System","Sistem","isim"],["Beyond","Ötesinde","edat"],
+]}
+];
+
+/* SPEAK — AI-quality English voice selector */
+let _bestVoice = null;
+function _pickVoice(){
+  const voices = window.speechSynthesis.getVoices();
+  if(!voices.length) return null;
+  const priority = [
+    v => /google/i.test(v.name) && /en.GB/i.test(v.lang),
+    v => /google/i.test(v.name) && /en.US/i.test(v.lang),
+    v => /samantha|karen|daniel|moira|rishi/i.test(v.name) && /en/i.test(v.lang),
+    v => /neural|premium|enhanced|natural/i.test(v.name) && /en/i.test(v.lang),
+    v => /microsoft.*zira|microsoft.*hazel|microsoft.*george|microsoft.*susan/i.test(v.name),
+    v => /en.GB/i.test(v.lang),
+    v => /en/i.test(v.lang),
+  ];
+  for(const fn of priority){
+    const found = voices.find(fn);
+    if(found) return found;
+  }
+  return voices[0];
+}
+function spk(w){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(w);
+  u.lang = 'en-GB';
+  u.rate = 0.82;
+  u.pitch = 1.0;
+  const go = () => {
+    if(!_bestVoice) _bestVoice = _pickVoice();
+    if(_bestVoice) u.voice = _bestVoice;
+    window.speechSynthesis.speak(u);
+  };
+  if(window.speechSynthesis.getVoices().length){
+    go();
+  } else {
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged=null; go(); };
+  }
+}
+
+/* BUILD */
+const content=document.getElementById('content');
+const tgrid=document.getElementById('tgrid');
+let cur=0;
+const secs=[];
+
+const total=T.reduce((s,t)=>s+t.words.length,0);
+document.getElementById('total-n').textContent=total;
+
+/* Theme buttons */
+T.forEach((th,i)=>{
+  const b=document.createElement('button');
+  b.className='tbtn'+(i===0?' active':'');
+  if(i===0){b.style.background=th.c;b.style.borderColor=th.c;}
+  b.innerHTML=`<span class="tn">${th.n}</span><span class="tt">${th.title}</span><span class="tc">${th.words.length} kelime</span>`;
+  b.addEventListener('click',()=>sw(i));
+  tgrid.appendChild(b);
+});
+const trb=document.createElement('button');
+trb.className='tbtn';
+trb.innerHTML=`<span class="tn">🔍</span><span class="tt">Çeviri</span><span class="tc">anında</span>`;
+trb.addEventListener('click',()=>sw(8));
+tgrid.appendChild(trb);
+
+/* Unit sections */
+T.forEach((th,i)=>{
+  const sec=document.createElement('div');
+  sec.className='unit'+(i===0?' active':'');
+  const cards=th.words.map(w=>`
+    <div class="wcard" data-e="${w[0].toLowerCase()}" data-t="${w[1].toLowerCase()}" style="border-top:3px solid ${th.c}">
+      <div class="wen-block">
+        <div>
+          <div class="wen">${w[0]}</div>
+          <div class="wtype">${w[2]}</div>
+        </div>
+        <button class="spkbtn" onclick="spk('${w[0].replace(/'/g,"\\'").replace(/"/g,"&quot;")}')">🔊</button>
+      </div>
+      <div class="wtr-block" style="background:${th.bg}20">
+        <div class="wtr" style="color:${th.c}">${w[1]}</div>
+      </div>
+    </div>`).join('');
+  sec.innerHTML=`
+    <div class="banner" style="background:${th.bg};color:${th.c}">
+      <div class="banner-bg">${th.n}</div>
+      <div class="btag">${th.tag}</div>
+      <div class="btitle">${th.title}</div>
+      <div class="bdesc">${th.desc}</div>
+    </div>
+    <div class="toolbar">
+      <input class="usrch" type="text" placeholder="Bu temada ara..." oninput="filt(${i},this.value)">
+      <div class="cpill" id="cp-${i}"><b>${th.words.length}</b> kelime</div>
+    </div>
+    <div class="wgrid" id="wg-${i}">${cards}</div>
+    <div class="nores" id="nr-${i}">Kelime bulunamadı 🔍</div>`;
+  content.appendChild(sec);
+  secs.push(sec);
+});
+
+/* Translate section */
+const trsec=document.createElement('div');
+trsec.className='unit';
+trsec.innerHTML=`
+  <div class="banner" style="background:#1a1d23;color:#fff">
+    <div class="btag" style="color:rgba(255,255,255,.5)">Ek Özellik</div>
+    <div class="btitle">Anında Çeviri</div>
+    <div class="bdesc" style="color:rgba(255,255,255,.5)">İngilizce ↔ Türkçe kelime çevir</div>
+  </div>
+  <div class="tr-dir-row" style="margin-bottom:12px">
+    <button class="tr-dir-btn active" id="dir-en" onclick="setDir('en')">🇬🇧 EN → TR</button>
+    <button class="tr-dir-btn" id="dir-tr" onclick="setDir('tr')">🇹🇷 TR → EN</button>
+  </div>
+  <div class="tr-panels">
+    <div class="tr-panel">
+      <div class="tr-panel-lbl" id="lbl-from">İngilizce</div>
+      <textarea class="tr-area" id="trinp" placeholder="Kelime yaz..." oninput="doTrLive()" rows="3"></textarea>
+      <button class="spk-panel-btn" onclick="spkFrom()">🔊</button>
+    </div>
+    <div class="tr-arrow">⇄</div>
+    <div class="tr-panel">
+      <div class="tr-panel-lbl" id="lbl-to">Türkçe</div>
+      <div class="tr-area tr-area-result" id="trres">—</div>
+      <button class="spk-panel-btn" onclick="spkTo()">🔊</button>
+    </div>
+  </div>
+  <div class="tr-status" id="tr-status"></div>`;
+content.appendChild(trsec);
+secs.push(trsec);
+
+/* SWITCH */
+function sw(i){
+  document.getElementById('gs').value='';
+  document.getElementById('gpanel').classList.remove('show');
+  secs[cur].classList.remove('active');
+  secs[i].classList.add('active');
+  cur=i;
+  const btns=document.querySelectorAll('.tbtn');
+  btns.forEach((b,idx)=>{b.classList.remove('active');b.style.background='';b.style.borderColor='';});
+  btns[i].classList.add('active');
+  const c=i<8?T[i].c:'#1a1d23';
+  btns[i].style.background=c;btns[i].style.borderColor=c;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* FILTER */
+function filt(i,q){
+  q=q.toLowerCase().trim();
+  const cards=document.getElementById('wg-'+i).querySelectorAll('.wcard');
+  let v=0;
+  cards.forEach(c=>{const m=!q||c.dataset.e.includes(q)||c.dataset.t.includes(q);c.style.display=m?'':'none';if(m)v++;});
+  document.getElementById('cp-'+i).innerHTML=q?`<b>${v}</b>/${T[i].words.length}`:`<b>${T[i].words.length}</b> kelime`;
+  document.getElementById('nr-'+i).style.display=v===0?'block':'none';
+}
+
+/* GLOBAL SEARCH */
+function gSearch(q){
+  q=q.toLowerCase().trim();
+  const panel=document.getElementById('gpanel');
+  const info=document.getElementById('ginfo');
+  const body=document.getElementById('gbody');
+  if(!q){panel.classList.remove('show');secs[cur].classList.add('active');return;}
+  secs.forEach(s=>s.classList.remove('active'));
+  const res=T.map((th,i)=>({th,i,words:th.words.filter(w=>w[0].toLowerCase().includes(q)||w[1].toLowerCase().includes(q))})).filter(r=>r.words.length>0);
+  const tot=res.reduce((s,r)=>s+r.words.length,0);
+  if(res.length===0){
+    info.innerHTML=`"<b>${q}</b>" için sonuç bulunamadı`;
+    body.innerHTML=`<div class="nores" style="display:block">Kitapta bu kelime yok. <a href="#" onclick="sw(8);return false" style="color:#0077b6">Çeviri bölümüne git →</a></div>`;
+    panel.classList.add('show');return;
+  }
+  info.innerHTML=`"<b>${q}</b>" için <b>${tot}</b> sonuç`;
+  let html='';
+  res.forEach(r=>{
+    html+=`<div><span class="gtlbl" style="background:${r.th.c}">${r.th.n} · ${r.th.title}</span></div><div class="wgrid" style="margin-bottom:14px">`;
+    r.words.forEach(w=>{html+=`<div class="wcard" style="border-top:3px solid ${r.th.c}"><div class="wen-block"><div><div class="wen">${w[0]}</div><div class="wtype">${w[2]}</div></div><button class="spkbtn" onclick="spk('${w[0].replace(/'/g,"\\'")}')">🔊</button></div><div class="wtr-block" style="background:${r.th.bg}20"><div class="wtr" style="color:${r.th.c}">${w[1]}</div></div></div>`;});
+    html+='</div>';
+  });
+  body.innerHTML=html;
+  panel.classList.add('show');
+}
+
+/* TRANSLATE DIRECTION */
+let trDir = 'en';
+let trTimer = null;
+let lastResult = '';
+let lastInp = '';
+
+function setDir(d){
+  trDir = d;
+  document.getElementById('dir-en').classList.toggle('active', d==='en');
+  document.getElementById('dir-tr').classList.toggle('active', d==='tr');
+  document.getElementById('lbl-from').textContent = d==='en' ? 'İngilizce' : 'Türkçe';
+  document.getElementById('lbl-to').textContent   = d==='en' ? 'Türkçe'    : 'İngilizce';
+  document.getElementById('trinp').placeholder    = d==='en' ? 'İngilizce kelime yaz...' : 'Türkçe kelime yaz...';
+  document.getElementById('trres').textContent    = '—';
+  document.getElementById('tr-status').innerHTML  = '';
+  document.getElementById('trinp').value = '';
+  document.getElementById('trinp').focus();
+  lastResult = ''; lastInp = '';
+}
+
+function spkFrom(){ spk(document.getElementById('trinp').value.trim()); }
+function spkTo(){
+  if(!lastResult) return;
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  if(trDir === 'en'){
+    // result is Turkish — use Turkish voice
+    const u = new SpeechSynthesisUtterance(lastResult);
+    u.lang = 'tr-TR'; u.rate = 0.85;
+    window.speechSynthesis && window.speechSynthesis.speak(u);
+  } else {
+    // result is English — use best AI voice
+    spk(lastResult);
+  }
+}
+
+function doTrLive(){
+  clearTimeout(trTimer);
+  const val = document.getElementById('trinp').value.trim();
+  if(!val){
+    document.getElementById('trres').textContent = '—';
+    document.getElementById('tr-status').innerHTML = '';
+    lastResult = ''; lastInp = '';
+    return;
+  }
+  trTimer = setTimeout(doTr, 500);
+}
+
+function doTr(){
+  const inp = document.getElementById('trinp').value.trim();
+  const resEl = document.getElementById('trres');
+  const status = document.getElementById('tr-status');
+  if(!inp || inp === lastInp) return;
+  lastInp = inp;
+
+  const sl = trDir === 'en' ? 'en' : 'tr';
+  const tl = trDir === 'en' ? 'tr' : 'en';
+
+  // 1. Kitapta ara
+  let found = null;
+  if(trDir === 'en'){
+    outer: for(const th of T){
+      for(const w of th.words){
+        if(w[0].toLowerCase() === inp.toLowerCase()){
+          found = {result: w[1], info: th.tag + ' · ' + th.title};
+          break outer;
+        }
+      }
+    }
+  } else {
+    outer: for(const th of T){
+      for(const w of th.words){
+        if(w[1].toLowerCase() === inp.toLowerCase()){
+          found = {result: w[0], info: th.tag + ' · ' + th.title};
+          break outer;
+        }
+      }
+    }
+  }
+
+  if(found){
+    resEl.textContent = found.result;
+    lastResult = found.result;
+    status.innerHTML = `<span style="color:#2d6a4f;font-size:12px;font-weight:800">✅ Kitapta var — ${found.info}</span>`;
+    return;
+  }
+
+  // 2. Kitapta yok — JSONP ile Google Translate
+  resEl.textContent = '...';
+  status.innerHTML = `<span style="color:#c05621;font-size:12px;font-weight:800">📖 Kitapta yok — çevriliyor...</span>`;
+
+  const cbName = '_gtcb_' + Date.now();
+  let done = false;
+  const script = document.createElement('script');
+
+  const timer = setTimeout(function(){
+    if(done) return;
+    done = true;
+    cleanup();
+    showFallback(inp, sl, tl, resEl, status);
+  }, 4000);
+
+  function cleanup(){
+    clearTimeout(timer);
+    delete window[cbName];
+    if(script.parentNode) script.parentNode.removeChild(script);
+  }
+
+  window[cbName] = function(data){
+    if(done) return;
+    done = true;
+    cleanup();
+    try{
+      const t = data[0].map(function(p){ return p[0]||''; }).join('').trim();
+      if(t && t.toLowerCase() !== inp.toLowerCase()){
+        resEl.textContent = t;
+        lastResult = t;
+        status.innerHTML = `<span style="color:#c05621;font-size:12px;font-weight:800">📖 Kitapta yok</span>`;
+      } else {
+        showFallback(inp, sl, tl, resEl, status);
+      }
+    } catch(e){
+      showFallback(inp, sl, tl, resEl, status);
+    }
+  };
+
+  script.onerror = function(){
+    if(done) return;
+    done = true;
+    cleanup();
+    showFallback(inp, sl, tl, resEl, status);
+  };
+
+  script.src = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl='
+    + sl + '&tl=' + tl + '&dt=t&q=' + encodeURIComponent(inp) + '&cb=' + cbName;
+  document.head.appendChild(script);
+}
+
+function showFallback(inp, sl, tl, resEl, status){
+  lastResult = "";
+  var gLink = "https://translate.google.com/?sl=" + sl + "&tl=" + tl + "&text=" + encodeURIComponent(inp) + "&op=translate";
+  var a = document.createElement("a");
+  a.href = gLink;
+  a.target = "_blank";
+  a.textContent = "Google Translate'ta Ac";
+  a.style.cssText = "color:#0077b6;font-weight:800;font-size:14px";
+  resEl.textContent = "";
+  resEl.appendChild(a);
+  status.innerHTML = "<span style='color:#c05621;font-size:12px;font-weight:800'>Kitapta yok</span>";
+}
+</script>
+</body>
+</html>
